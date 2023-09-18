@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costichi</title>
+    <style>
+        body {
+            background-color: black;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        .players_container {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .player {
+            background-color: blueviolet;
+            position: relative;
+            width: 200px;
+            padding: 10px;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all ease .5s;
+            cursor: pointer;
+        }
+
+        .player.hidden {
+            transform: rotateY(180deg);
+            color: blueviolet;
+        }
+
+        .form {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            gap: 10px;
+            margin: 40px 0;
+            font-size: 16px;
+        }
+
+        .form input {
+            height: 20px;
+            padding: 5px;
+            border: none;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .form label {
+            align-self: center;
+        }
+
+        .form button {
+            background: #54ff00;
+            border: none;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form">
+        <label for="inp_player">Jugador</label>
+        <input type="text" id="inp_player" placeholder="Nombre de jugador">
+        <button class="btn_agregar">Agregar</button>
+    </div>
+    <div class="players_container">
+
+    </div>
+    <button class="btn_ocultar">Ocultar</button>
+    <button>Revolver</button>
+    <script>
+        const players = [];
+        const players_container = document.querySelector('.players_container');
+        const btn_agregar = document.querySelector('.btn_agregar');
+        const btn_ocultar = document.querySelector('.btn_ocultar');
+        const inp_player = document.querySelector('#inp_player');
+        inp_player.addEventListener('keyup', ({ key }) => {
+            if (key === 'Enter') {
+                btn_agregar.click();
+            }
+        })
+        btn_agregar.addEventListener('click', () => {
+            if (inp_player && inp_player.value) {
+                createPlayer(inp_player.value.toUpperCase());
+            }
+            inp_player.value = "";
+            console.log({ players });
+        });
+
+        btn_ocultar.addEventListener('click', () => {
+            const dom_players = document.querySelectorAll('.player');
+            console.log({ dom_players });
+            if (dom_players.length > 0) {
+                [...dom_players].forEach(el => {
+                    el.classList.add('hidden');
+                });
+            }
+        });
+
+        function createPlayer(name) {
+            players.push(name);
+            const div_player = document.createElement('div');
+            div_player.innerText = name;
+            div_player.classList.add('player');
+            div_player.addEventListener('click', () => {
+                if (div_player.classList.contains('hidden')) {
+                    div_player.classList.remove('hidden');
+                } else {
+                    div_player.classList.add('hidden');
+                }
+            });
+            players_container.appendChild(div_player);
+        }
+    </script>
+</body>
+
+</html>
